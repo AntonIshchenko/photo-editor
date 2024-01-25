@@ -91,28 +91,29 @@ services:
 #        aliases:
 #          - broker
          
-#  localstack:
-#    image: localstack/localstack:latest
-#    environment:
-#      - AWS_DEFAULT_REGION=us-east-1
-#      - EDGE_PORT=4566
-#      - SERVICES=lambda,s3
-#    ports:
-#      - '4566-4583:4566-4583'
-#    volumes:
-#      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
-#      - "/var/run/docker.sock:/var/run/docker.sock"
-#      - "${TEMPDIR:-/tmp/localstack}:/tmp/localstack"
-#    networks:
-#      microservice-net:
-#        aliases:
-#          - localstack
-#    healthcheck:
-#      test: curl --fail http://localstack:4566 || exit 1
-#      interval: 30s
-#      retries: 3
-#      start_period: 20s
-#      timeout: 10s
+  localstack:
+    image: localstack/localstack:latest
+    environment:
+      - AWS_DEFAULT_REGION=us-east-1
+      - EDGE_PORT=4566
+      - SERVICES=lambda,s3
+      - CLEAR_TMP_FOLDER=0
+    ports:
+      - '4566-4583:4566-4583'
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "${TEMPDIR:-/tmp/localstack}:/tmp/localstack"
+    networks:
+      microservice-net:
+        aliases:
+          - localstack
+    healthcheck:
+      test: curl --fail http://localstack:4566 || exit 1
+      interval: 30s
+      retries: 3
+      start_period: 20s
+      timeout: 10s
       
 networks:
   microservice-net:
